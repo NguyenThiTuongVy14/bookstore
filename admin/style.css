@@ -1,0 +1,59 @@
+/* Background và kiểu dáng chung cho trang */
+body {
+    background-color: #f0f0f0; /* Gray background for the whole page */
+}
+
+/* Kiểu dáng cho hình ảnh admin */
+.admin_img, .product_img, .edit_image {
+    width: 100px;
+    object-fit: contain;
+}
+
+/* Màu nền cho navbar */
+.navbar, .bg-primary {
+    background-color: #343a40 !important; /* Dark background for the navbar */
+}
+.nav-link {
+    background-color: #343a40 !important; /* Màu xanh của nút */
+    color: #fff !important; /* Màu chữ trắng */
+}
+
+/* Container chính */
+.container-fluid {
+    background-color: #f0f0f0;
+}
+
+/* Định dạng cho các nút */
+.button a.nav-link {
+    background-color: #6c757d;  /* Màu xám cho nền nút */
+    color: white;               /* Màu chữ trắng */
+    border-radius: 5px;         /* Góc bo tròn cho nút */
+    padding: 10px;              /* Khoảng cách trong nút */
+    text-decoration: none;      /* Bỏ gạch chân */
+    margin: 5px;
+}
+
+/* Màu nền khi hover vào nút */
+.button a.nav-link:hover {
+    background-color: #5a6268;  /* Màu xám đậm khi hover */
+    color: #ffffff;             /* Màu chữ trắng khi hover */
+}
+
+/* Màu chữ sáng cho các phần tử có class .text-light */
+.text-light {
+    color: white !important;
+}
+
+/* Màu chữ cho tiêu đề */
+h3 {
+    color: #ffffff;
+    font-size: 24px;
+}
+
+/* Định dạng container con */
+.container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
