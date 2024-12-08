@@ -50,8 +50,8 @@
             <!-- Icons -->
             <div class="header-icons d-flex align-items-center">
                 <a href="#" class="icon-link text-center">
-                    <i class="fas fa-bell"></i>
-                    <p>Thông Báo</p>
+                    <i><img src="asset/img/contact-us.png" alt=""></i>
+                    <p>Liên hệ</p>
                 </a>
                 <a href="#" class="icon-link text-center">
                     <i class="fas fa-shopping-cart"></i>
@@ -82,7 +82,7 @@
 
             <!-- Sidebar Section -->
             <div class="col-lg-3 bg-dark text-light p-3 rounded shadow d-flex flex-column" style="height: 80vh;">
-                <div class="mb-4 flex-grow-1" style="overflow-y: auto; max-height: 50%;">
+                <div class="mb-4 flex-grow-1 list">
                     <ul class="navbar-nav text-center">
                         <li class="nav-item bg-primary" style="position: sticky; top: 0; z-index: 1;">
                             <a href="#" class="nav-link text-light py-2">
@@ -94,7 +94,7 @@
                 </div>
 
                 <!-- Publishers -->
-                <div class="flex-grow-1" style="overflow-y: auto; max-height: 50%;">
+                <div class="flex-grow-1 list">
                     <ul class="navbar-nav text-center">
                         <li class="nav-item bg-primary" style="position: sticky; top: 0; z-index: 1;">
                             <a href="#" class="nav-link text-light py-2">

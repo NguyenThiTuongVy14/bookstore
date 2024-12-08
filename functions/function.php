@@ -30,13 +30,25 @@ function getProducts() {
     global $con;
     global $products;
     foreach ($products as $row) {
+        $formatted_price = number_format($row['product_price'], 0, ',', '.');
         echo "
         <div class='col-md-4'>
             <div class='card'>
                 <img src='./asset/img/{$row['product_image1']}' class='card-img-top' alt='...'>
                 <div class='card-body'>
                     <h5 class='card-title'>{$row['product_title']}</h5>
-                    <p class='card-text product-description'>{$row['product_description']}</p>
+                    <p class='card-text d-flex justify-content-between'>
+                        <span style='margin-left: 10px; color: red; font-weight: bold;'>Giá: {$formatted_price}đ</span> 
+                        <span style='margin-right: 10px;'>Đã bán: ";
+                            $get_sold_quality = "SELECT SUM(quantity) AS total FROM orders_pending WHERE product_id = :product_id";
+                            $stmt= $con->prepare("$get_sold_quality");
+                            $stmt->bindParam(":product_id", $row['product_id'], PDO::PARAM_STR);
+                            $stmt->execute();
+                            $rows = $stmt->fetch(PDO::FETCH_ASSOC);
+                            $total_sold=$rows['total'];
+                            echo $total_sold ? $total_sold : '0';
+        echo "          </span>
+                    </p>
                     <a href='add_to_cart.php?product_id={$row['product_id']}' class='btn btn-primary'>Mua hàng</a>
                 </div>
             </div>
@@ -67,3 +79,8 @@ function getBrands() {
     }
 }
 ?>
+<style>
+    div{
+        
+    }
+</style>
