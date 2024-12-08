@@ -29,24 +29,6 @@ function total_cart_price() {
 function getProducts() {
     global $con;
     global $products;
-    // $stmt = $con->prepare("SELECT * FROM `products`");
-    // $stmt->execute();
-
-    
-    // while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    //     // Hiển thị thông tin sản phẩm
-    //     echo "
-    //     <div class='col-md-4'>
-    //         <div class='card'>
-    //             <img src='./asset/img/{$row['product_image1']}' class='card-img-top' alt='...'>
-    //             <div class='card-body'>
-    //                 <h5 class='card-title'>{$row['product_title']}</h5>
-    //                 <p class='card-text'>{$row['product_description']}</p>
-    //             </div>
-    //         </div>
-    //     </div>
-    //     ";
-    // }
     foreach ($products as $row) {
         echo "
         <div class='col-md-4'>
@@ -54,7 +36,8 @@ function getProducts() {
                 <img src='./asset/img/{$row['product_image1']}' class='card-img-top' alt='...'>
                 <div class='card-body'>
                     <h5 class='card-title'>{$row['product_title']}</h5>
-                    <p class='card-text'>{$row['product_description']}</p>
+                    <p class='card-text product-description'>{$row['product_description']}</p>
+                    <a href='add_to_cart.php?product_id={$row['product_id']}' class='btn btn-primary'>Mua hàng</a>
                 </div>
             </div>
         </div>

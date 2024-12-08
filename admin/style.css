@@ -1,21 +1,18 @@
-/* Background và kiểu dáng chung cho trang */
 body {
-    background-color: #f0f0f0; /* Gray background for the whole page */
+    background-color: #f0f0f0; 
 }
 
-/* Kiểu dáng cho hình ảnh admin */
 .admin_img, .product_img, .edit_image {
     width: 100px;
     object-fit: contain;
 }
 
-/* Màu nền cho navbar */
 .navbar, .bg-primary {
-    background-color: #343a40 !important; /* Dark background for the navbar */
+    background-color: #343a40 !important; 
 }
 .nav-link {
-    background-color: #343a40 !important; /* Màu xanh của nút */
-    color: #fff !important; /* Màu chữ trắng */
+    background-color: #343a40 !important; 
+    color: #fff !important; 
 }
 
 /* Container chính */
@@ -25,11 +22,11 @@ body {
 
 /* Định dạng cho các nút */
 .button a.nav-link {
-    background-color: #6c757d;  /* Màu xám cho nền nút */
-    color: white;               /* Màu chữ trắng */
-    border-radius: 5px;         /* Góc bo tròn cho nút */
-    padding: 10px;              /* Khoảng cách trong nút */
-    text-decoration: none;      /* Bỏ gạch chân */
+    background-color: #6c757d;  
+    color: white;              
+    border-radius: 5px;        
+    padding: 10px;              
+    text-decoration: none;    
     margin: 5px;
 }
 

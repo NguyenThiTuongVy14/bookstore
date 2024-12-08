@@ -28,57 +28,42 @@
 
 <body>
     <!-- Navbar -->
-    <div class="container-fluid p-0">
-        <nav class="navbar navbar-expand-lg bg-dark text-light shadow" data-bs-theme="dark">
-            <div class="container-fluid">
-                <a href="./index.php" class="navbar-brand">
-                    <img src="./asset/img/logo.png" alt="logo" class="nav_logo" width="100px">
+    <header class="header bg-dark">
+        <div class="container d-flex align-items-center justify-content-between">
+            <!-- Logo -->
+            <div class="logo">
+                <a href="#">
+                    <img src="asset/img/logo.png" alt="Logo" class="img-fluid">
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="./index.php">Trang chủ</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="display_all.php">Sản phẩm</a>
-                        </li>
-                        <?php
-                        if (isset($_SESSION['username'])) {
-                            echo "<li class='nav-item'>
-                                    <a class='nav-link' href='./users_area/profile.php'>Trang cá nhân</a>
-                                </li>";
-                        } else {
-                            echo "<li class='nav-item'>
-                                    <a class='nav-link' href='./users_area/user_registration.php'>Đăng ký</a>
-                                </li>";
-                        }
-                        ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="contact.php">Liên hệ</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="cart.php">
-                                <i class="fa-solid fa-cart-shopping"></i><sup>
-                                    <?php cart_item(); ?>
-                                </sup>
-                            </a>
-                        </li>
-                    </ul>
-                    <form class="d-flex" role="search" action="search_product.php" method="get">
-                        <input class="form-control me-2 bg-secondary text-light" type="search"
-                            placeholder="Nhập tên sản phẩm" aria-label="Search" name="search_data">
-                        <input type="submit" value="Search" class="btn btn-outline-light" name="search_data_product">
-                    </form>
-                </div>
             </div>
-        </nav>
-    </div>
 
+            <!-- Search Bar -->
+           
+        <!-- Search Bar -->
+        <div class="search-bar position-relative">
+            <input type="text" class="form-control search-input" placeholder="Tìm kiếm sản phẩm...">
+            <button class="btn search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+
+            <!-- Icons -->
+            <div class="header-icons d-flex align-items-center">
+                <a href="#" class="icon-link text-center">
+                    <i class="fas fa-bell"></i>
+                    <p>Thông Báo</p>
+                </a>
+                <a href="#" class="icon-link text-center">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>Giỏ Hàng</p>
+                </a>
+                <a href="#" class="icon-link text-center">
+                    <i class="fas fa-user"></i>
+                    <p>Tài Khoản</p>
+                </a>
+            </div>
+        </div>
+    </header>
     <!-- Scroll to Top Button -->
     <button onclick="topFunction()" id="topbTN" title="Go to top" class="btn btn-dark shadow">
         <i class="fa-solid fa-arrow-up-long"></i>
