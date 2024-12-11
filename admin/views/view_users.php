@@ -27,7 +27,6 @@ $row_count = $stmt->rowCount();
             } else {
                 echo "<tr>
                     <th>STT</th>
-                    <th>Tên đăng nhập</th>
                     <th>Họ và tên khách hàng</th>
                     <th>Email khách hàng</th>
                     <th>Địa chỉ khách hàng</th>
@@ -39,7 +38,6 @@ $row_count = $stmt->rowCount();
                 $number = 0;
                 while ($row_data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     $user_id = $row_data['user_id'];
-                    $user_username = $row_data['username'];
                     $user_fullname = $row_data['user_fullname'];
                     $user_email = $row_data['user_email'];
                     $user_address = $row_data['user_address'];
@@ -47,7 +45,6 @@ $row_count = $stmt->rowCount();
                     $number++;
                     echo "<tr>
                         <td>$number</td>
-                        <td>$user_username</td>
                         <td>$user_fullname</td>
                         <td>$user_email</td>
                         <td>$user_address</td>

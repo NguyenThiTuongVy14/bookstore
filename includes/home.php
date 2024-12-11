@@ -1,30 +1,21 @@
-<!-- Main Content -->
+<?php
+
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$products_per_page = 6;
+$category_id = isset($_GET['category_id']) ? $_GET['category_id'] : null;
+
+?>
+
 <div class="row justify-content-center px-1 mt-5">
     <div class="col-md-10">
-        <div class="row justify-content-center" id="product-list">
-            <?php getProducts(); ?>
+        <div class="row" id="product-list">
+            <?php
+                getProducts($page, $products_per_page, $category_id); 
+            ?>
         </div>
     </div>
-    <div class="pagination-wrapper mt-3 mb-3">
-        <div class="pagination justify-content-center">
-            <?php if ($page > 1){ ?>
-                <div class="page-item">
-                    <a class="page-link" href="?page=<?php echo $page - 1; ?>">Trang trước</a>
-                </div>
-            <?php } ?>
-
-            <?php for ($i = 1; $i <= $total_pages; $i++){ ?>
-                <div class="page-item <?php echo ($i == $page) ? 'active' : ''; ?>">
-                    <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                </div>
-            <?php } ?>
-
-            <?php if ($page < $total_pages){ ?>
-                <div class="page-item">
-                    <a class="page-link" href="?page=<?php echo $page + 1; ?>">Trang sau</a>
-                </div>
-            <?php } ?>
-        </div>
-    </div>
-
 </div>
+
+<?php
+    generatePagination($con, $page, $products_per_page, $category_id);
+?>
