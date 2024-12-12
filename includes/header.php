@@ -47,22 +47,22 @@
                 <p>Liên hệ</p>
             </a>
             <a href="#" class="icon-link text-center">
-                <i class="fas fa-shopping-cart"></i>
+                <i class="fas fa-shopping-cart"></i><sup style="color: white;">1</sup>
                 <p>Giỏ Hàng</p>
             </a>
 
             <div class="icon-link text-center dropdown">
                 <a href="#" class="dropdown-toggle" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-user"></i>
-                    <p id="accountStatus">Tài Khoản</p>
+                    <p id="accountStatus">Tài khoản</p>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="accountDropdown">
-                    <?php if (isset($_SESSION['user_name'])): ?>
-                        <li><a class="dropdown-item" href="#">Chào, <?php echo $_SESSION['user_name']; ?></a></li>
-                        <li><a class="dropdown-item" href="logout.php">Đăng xuất</a></li>
+                    <?php if (isset($_SESSION['user_fullname'])): ?>
+                        <li><a class="dropdown-item" href="#">Chào, <?php echo $_SESSION['user_fullname']; ?></a></li>
+                        <li><a class="dropdown-item" href="user/dangxuat.php">Đăng xuất</a></li>
                     <?php else: ?>
-                        <li><a class="dropdown-item" href="login.php">Đăng nhập</a></li>
-                        <li><a class="dropdown-item" href="signup.php">Đăng ký</a></li>
+                        <li><a class="dropdown-item" href="user/dangnhap.php">Đăng nhập</a></li>
+                        <li><a class="dropdown-item" href="user/dangky.php">Đăng ký</a></li>
                     <?php endif; ?>
                 </ul>
             </div>
