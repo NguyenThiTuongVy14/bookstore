@@ -1,3 +1,12 @@
+<?php
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+} else {
+    $user_id = 0;
+}
+
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,56 +28,57 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="website icon" type="png" href="asset/img/logo_black.png" id="logo"/>
+    <link rel="website icon" type="png" href="asset/img/logo_black.png" id="logo" />
     <title>VT Store</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
 </head>
 
 <body>
-<header class="header bg-dark">
-    <div class="container d-flex align-items-center justify-content-between">
-        <div class="logo">
-            <a href="index.php">
-                <img src="asset/img/logo.png" alt="Logo" class="img-fluid">
-            </a>
-        </div>
-
-        <div class="search-bar position-relative">
-            <input type="text" class="form-control search-input" placeholder="Tìm kiếm sản phẩm...">
-            <button class="btn search-button">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-
-        <div class="header-icons d-flex align-items-center">
-            <a href="#" class="icon-link text-center">
-                <i><img src="asset/img/contact-us.png" alt=""></i>
-                <p>Liên hệ</p>
-            </a>
-            <a href="#" class="icon-link text-center">
-                <i class="fas fa-shopping-cart"></i><sup style="color: white;">1</sup>
-                <p>Giỏ Hàng</p>
-            </a>
-
-            <div class="icon-link text-center dropdown">
-                <a href="#" class="dropdown-toggle" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-user"></i>
-                    <p id="accountStatus">Tài khoản</p>
+    <header class="header bg-dark">
+        <div class="container d-flex align-items-center justify-content-between">
+            <div class="logo">
+                <a href="index.php">
+                    <img src="asset/img/logo.png" alt="Logo" class="img-fluid">
                 </a>
-                <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="accountDropdown">
-                    <?php if (isset($_SESSION['user_fullname'])): ?>
-                        <li><a class="dropdown-item" href="#">Chào, <?php echo $_SESSION['user_fullname']; ?></a></li>
-                        <li><a class="dropdown-item" href="user/dangxuat.php">Đăng xuất</a></li>
-                    <?php else: ?>
-                        <li><a class="dropdown-item" href="user/dangnhap.php">Đăng nhập</a></li>
-                        <li><a class="dropdown-item" href="user/dangky.php">Đăng ký</a></li>
-                    <?php endif; ?>
-                </ul>
+            </div>
+
+            <div class="search-bar position-relative">
+                <input type="text" class="form-control search-input" placeholder="Tìm kiếm sản phẩm...">
+                <button class="btn search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+
+            <div class="header-icons d-flex align-items-center">
+                <a href="#" class="icon-link text-center">
+                    <i><img src="asset/img/contact-us.png" alt=""></i>
+                    <p>Liên hệ</p>
+                </a>
+                <a href="cart.php" class="icon-link text-center">
+                    <i class="fas fa-shopping-cart"></i><sup style="color: white;"><?php echo cart_item($user_id); ?></sup>
+                    <p>Giỏ Hàng</p>
+                </a>
+
+                <div class="icon-link text-center dropdown">
+                    <a href="#" class="dropdown-toggle" id="accountDropdown" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="fas fa-user"></i>
+                        <p id="accountStatus">Tài khoản</p>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="accountDropdown">
+                        <?php if (isset($_SESSION['user_fullname'])): ?>
+                            <li><a class="dropdown-item" href="#">Chào, <?php echo $_SESSION['user_fullname']; ?></a></li>
+                            <li><a class="dropdown-item" href="user/dangxuat.php">Đăng xuất</a></li>
+                        <?php else: ?>
+                            <li><a class="dropdown-item" href="user/dangnhap.php">Đăng nhập</a></li>
+                            <li><a class="dropdown-item" href="user/dangky.php">Đăng ký</a></li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
     <!-- Scroll to Top Button -->
     <button onclick="topFunction()" id="topbTN" title="Go to top" class="btn btn-dark shadow">
         <i class="fa-solid fa-arrow-up-long"></i>

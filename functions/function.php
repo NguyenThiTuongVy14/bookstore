@@ -1,33 +1,90 @@
 <?php
 
-function cart_item()
-{
-    // Kiểm tra số lượng sản phẩm trong giỏ hàng
-    global $con, $user_id;
-    $stmt = $con->prepare("SELECT * FROM `cart_details` WHERE user_id = :user_id");
-    $stmt->execute(['user_id' => $user_id]);
-    $result_count = $stmt->rowCount();
-    echo $result_count;
-}
-
-function total_cart_price()
-{
-    // Tính tổng giá trị giỏ hàng
-    global $con, $user_id;
-    $stmt = $con->prepare("SELECT * FROM `cart_details` WHERE user_id = :user_id");
-    $stmt->execute(['user_id' => $user_id]);
-    $total_price = 0;
-
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $product_id = $row['product_id'];
-        $stmt_product = $con->prepare("SELECT product_price FROM `products` WHERE product_id = :product_id");
-        $stmt_product->execute(['product_id' => $product_id]);
-        $product = $stmt_product->fetch(PDO::FETCH_ASSOC);
-        $total_price += $product['product_price'] * $row['quantity'];
+function cart_item($user_id) {
+    global $con;
+    if (empty($user_id)) {
+        return 0;
     }
 
-    echo number_format($total_price, 0, ',', '.');
+    try {
+        $stmt = $con->prepare("SELECT SUM(quantity) AS total_quantity FROM `cart_details` WHERE user_id = :user_id");
+        $stmt->execute(['user_id' => $user_id]);
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return isset($result['total_quantity']) ? $result['total_quantity'] : 0;
+
+    } catch (PDOException $e) {
+        return 0;
+    }
 }
+
+
+
+function get_cart_total_price($pdo, $user_id = null) {
+    if ($user_id !== null) {
+        $total_price = 0;
+        $stmt = $pdo->prepare("SELECT c.quantity, p.product_price FROM cart_details c JOIN products p ON c.product_id = p.product_id WHERE c.user_id = :user_id");
+        $stmt->execute(['user_id' => $user_id]);
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $total_price += $row['quantity'] * $row['product_price'];
+        }
+
+        return $total_price;
+    } else {
+        $total_price = 0;
+
+        if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+            foreach ($_SESSION['cart'] as $product_id => $quantity) {
+                $stmt_product = $pdo->prepare("SELECT product_price FROM products WHERE product_id = :product_id");
+                $stmt_product->execute(['product_id' => $product_id]);
+                $row_product = $stmt_product->fetch(PDO::FETCH_ASSOC);
+
+                if ($row_product) {
+                    $total_price += $row_product['product_price'] * $quantity;
+                }
+            }
+        }
+
+        return $total_price;
+    }
+}
+function update_cart($con, $user_id, $product_id, $quantity) {
+    // Kiểm tra xem số lượng có hợp lệ không
+    if ($quantity <= 0) {
+        return false; // Số lượng không hợp lệ
+    }
+
+    // Cập nhật giỏ hàng trong cơ sở dữ liệu nếu người dùng đã đăng nhập
+    $stmt = $con->prepare("SELECT * FROM `cart_details` WHERE user_id = :user_id AND product_id = :product_id");
+    $stmt->execute(['user_id' => $user_id, 'product_id' => $product_id]);
+
+    // Nếu sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng
+    if ($stmt->rowCount() > 0) {
+        $update_stmt = $con->prepare("UPDATE `cart_details` SET quantity = :quantity WHERE user_id = :user_id AND product_id = :product_id");
+        $update_stmt->execute(['quantity' => $quantity, 'user_id' => $user_id, 'product_id' => $product_id]);
+    } else {
+        // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới vào cơ sở dữ liệu
+        $insert_stmt = $con->prepare("INSERT INTO `cart_details` (user_id, product_id, quantity) VALUES (:user_id, :product_id, :quantity)");
+        $insert_stmt->execute(['user_id' => $user_id, 'product_id' => $product_id, 'quantity' => $quantity]);
+    }
+
+    return true;
+}
+
+function remove_cart_item($pdo, $user_id, $product_id) {
+    if ($user_id !== null) {
+        $stmt = $pdo->prepare("DELETE FROM cart_details WHERE user_id = :user_id AND product_id = :product_id");
+        $stmt->execute([
+            'user_id' => $user_id,
+            'product_id' => $product_id
+        ]);
+    } else {
+        unset($_SESSION['cart'][$product_id]); 
+    }
+}
+
 function getProducts($page, $products_per_page, $category_id)
 {
     global $con;
