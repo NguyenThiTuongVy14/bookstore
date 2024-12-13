@@ -51,28 +51,40 @@ function get_cart_total_price($pdo, $user_id = null) {
     }
 }
 function update_cart($con, $user_id, $product_id, $quantity) {
-    // Kiểm tra xem số lượng có hợp lệ không
     if ($quantity <= 0) {
-        return false; // Số lượng không hợp lệ
+        return false; 
     }
 
-    // Cập nhật giỏ hàng trong cơ sở dữ liệu nếu người dùng đã đăng nhập
-    $stmt = $con->prepare("SELECT * FROM `cart_details` WHERE user_id = :user_id AND product_id = :product_id");
-    $stmt->execute(['user_id' => $user_id, 'product_id' => $product_id]);
+    if ($user_id) {
+        // Khi người dùng đã đăng nhập, lưu giỏ hàng vào cơ sở dữ liệu
+        $stmt = $con->prepare("SELECT * FROM `cart_details` WHERE user_id = :user_id AND product_id = :product_id");
+        $stmt->execute(['user_id' => $user_id, 'product_id' => $product_id]);
 
-    // Nếu sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng
-    if ($stmt->rowCount() > 0) {
-        $update_stmt = $con->prepare("UPDATE `cart_details` SET quantity = :quantity WHERE user_id = :user_id AND product_id = :product_id");
-        $update_stmt->execute(['quantity' => $quantity, 'user_id' => $user_id, 'product_id' => $product_id]);
+        if ($stmt->rowCount() > 0) {
+            // Nếu sản phẩm đã có trong giỏ hàng, cập nhật số lượng
+            $update_stmt = $con->prepare("UPDATE `cart_details` SET quantity = :quantity WHERE user_id = :user_id AND product_id = :product_id");
+            $update_stmt->execute(['quantity' => $quantity, 'user_id' => $user_id, 'product_id' => $product_id]);
+        } else {
+            // Nếu sản phẩm chưa có trong giỏ hàng, thêm vào giỏ
+            $insert_stmt = $con->prepare("INSERT INTO `cart_details` (user_id, product_id, quantity) VALUES (:user_id, :product_id, :quantity)");
+            $insert_stmt->execute(['user_id' => $user_id, 'product_id' => $product_id, 'quantity' => $quantity]);
+        }
     } else {
-        // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới vào cơ sở dữ liệu
-        $insert_stmt = $con->prepare("INSERT INTO `cart_details` (user_id, product_id, quantity) VALUES (:user_id, :product_id, :quantity)");
-        $insert_stmt->execute(['user_id' => $user_id, 'product_id' => $product_id, 'quantity' => $quantity]);
+        // Khi người dùng chưa đăng nhập, lưu giỏ hàng vào session
+        if (!isset($_SESSION['cart'])) {
+            $_SESSION['cart'] = [];
+        }
+
+        // Nếu sản phẩm đã có trong giỏ hàng, cập nhật số lượng
+        if (isset($_SESSION['cart'][$product_id])) {
+            $_SESSION['cart'][$product_id] += $quantity;
+        } else {
+            $_SESSION['cart'][$product_id] = $quantity;
+        }
     }
 
     return true;
 }
-
 function remove_cart_item($pdo, $user_id, $product_id) {
     if ($user_id !== null) {
         $stmt = $pdo->prepare("DELETE FROM cart_details WHERE user_id = :user_id AND product_id = :product_id");

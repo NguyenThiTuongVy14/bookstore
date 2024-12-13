@@ -1,8 +1,7 @@
-<?php
+<!-- <?php
 include('./database/connectdb.php');
 session_start();
 
-// Lấy order_id từ URL
 $order_id = $_GET['order_id'];
 
 // Lấy thông tin đơn hàng từ bảng user_orders
@@ -59,4 +58,4 @@ if ($order) {
         </tbody>
     </table>
 </body>
-</html>
+</html> -->

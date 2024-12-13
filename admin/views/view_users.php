@@ -41,7 +41,7 @@ $row_count = $stmt->rowCount();
                     $user_fullname = $row_data['user_fullname'];
                     $user_email = $row_data['user_email'];
                     $user_address = $row_data['user_address'];
-                    $user_mobile = $row_data['user_mobile'];
+                    $user_mobile = $row_data['user_phone'];
                     $number++;
                     echo "<tr>
                         <td>$number</td>

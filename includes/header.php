@@ -1,4 +1,5 @@
 <?php
+
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 } else {
@@ -56,7 +57,15 @@ if (isset($_SESSION['user_id'])) {
                     <p>Liên hệ</p>
                 </a>
                 <a href="cart.php" class="icon-link text-center">
-                    <i class="fas fa-shopping-cart"></i><sup style="color: white;"><?php echo cart_item($user_id); ?></sup>
+                    <i class="fas fa-shopping-cart"></i><sup style="color: white;"><?php
+                    if (isset($_SESSION['user_id'])) {
+                        $user_id = $_SESSION['user_id'];
+                        echo cart_item($user_id);
+                    } else {
+
+                        echo isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
+                    }
+                    ?></sup>
                     <p>Giỏ Hàng</p>
                 </a>
 
