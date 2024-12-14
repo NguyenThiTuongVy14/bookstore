@@ -78,6 +78,7 @@ if (isset($_SESSION['user_id'])) {
                     <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="accountDropdown">
                         <?php if (isset($_SESSION['user_fullname'])): ?>
                             <li><a class="dropdown-item" href="#">Chào, <?php echo $_SESSION['user_fullname']; ?></a></li>
+                            <li><a class="dropdown-item" href="./order_details.php">Đơn hàng</a></li>
                             <li><a class="dropdown-item" href="user/dangxuat.php">Đăng xuất</a></li>
                         <?php else: ?>
                             <li><a class="dropdown-item" href="user/dangnhap.php">Đăng nhập</a></li>

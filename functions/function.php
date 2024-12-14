@@ -7,7 +7,7 @@ function cart_item($user_id) {
     }
 
     try {
-        $stmt = $con->prepare("SELECT SUM(quantity) AS total_quantity FROM `cart_details` WHERE user_id = :user_id");
+        $stmt = $con->prepare("SELECT count(quantity) AS total_quantity FROM `cart_details` WHERE user_id = :user_id");
         $stmt->execute(['user_id' => $user_id]);
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);

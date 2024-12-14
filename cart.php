@@ -35,7 +35,6 @@ if (isset($_POST['remove_cart'])) {
     header("Location: cart.php");
     exit();
 }
-// Xử lý thanh toán
 if (isset($_POST['checkout'])) {
     if (isset($_SESSION['user_id'])) {
         $user_id = $_SESSION['user_id'];
@@ -45,16 +44,16 @@ if (isset($_POST['checkout'])) {
         foreach ($_POST['qty'] as $product_id => $quantity) {
             $_SESSION['cart'][$product_id] = $quantity;
         }
-        //$total_products = is_array($_SESSION['cart']) ? count($_SESSION['cart']) : 0; 
         $invoice_number = rand(100000, 999999);
-        $stmt = $con->prepare("INSERT INTO user_orders (user_id, total_price, invoice_number, total_products, order_status) 
-                               VALUES (:user_id, :total_price, :invoice_number, :total_products, :order_status)");
+        $stmt = $con->prepare("INSERT INTO user_orders (user_id, total_price, invoice_number, total_products, order_status, product_id) 
+                               VALUES (:user_id, :total_price, :invoice_number, :total_products, :order_status,:product_id)");
         $stmt->execute([
             'user_id' => $user_id,
             'total_price' => $total_price,
             'invoice_number' => $invoice_number,
             'total_products' => $quantity,
-            'order_status' => 'pending'  // Trạng thái đơn hàng ban đầu
+            'product_id'=> $product_id,
+            'order_status' => 'pending' 
         ]);
 
         // Lấy ID của đơn hàng vừa tạo
@@ -90,9 +89,10 @@ if (isset($_POST['checkout'])) {
 
         // Xóa giỏ hàng sau khi thanh toán
         unset($_SESSION['cart']);
-
+        $stmt_delete_cart=$con->prepare("DELETE FROM cart_details");
+        $stmt_delete_cart->execute();
         // Chuyển hướng đến trang chi tiết đơn hàng
-        header("Location: order_details.php?order_id=$order_id");
+        header("Location: order_details.php");
         exit();
     } else {
         // Nếu người dùng chưa đăng nhập
