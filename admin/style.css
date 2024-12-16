@@ -1,56 +1,80 @@
-body {
-    background-color: #f0f0f0; 
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.admin_img, .product_img, .edit_image {
-    width: 100px;
-    object-fit: contain;
+/* Sidebar */
+.sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    padding-top: 30px;
+    background-color: #343a40;
 }
 
-.navbar, .bg-primary {
-    background-color: #343a40 !important; 
+.sidebar h3 {
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: bold;
 }
+
+.nav-item {
+    margin-bottom: 10px;
+}
+
 .nav-link {
-    background-color: #343a40 !important; 
-    color: #fff !important; 
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s;
 }
 
-/* Container chính */
+.nav-link:hover {
+    background-color: #5a6268;
+    color: #fff;
+}
+.nav-link:active{
+    background-color: #5a6268;
+    color: #fff;
+}
+.nav-link i {
+    margin-right: 10px;
+}
+
+
+/* Main Content */
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    border-radius: 8px;
+}
+
 .container-fluid {
     background-color: #f0f0f0;
+    padding-top: 20px;
 }
 
-/* Định dạng cho các nút */
 .button a.nav-link {
-    background-color: #6c757d;  
-    color: white;              
-    border-radius: 5px;        
-    padding: 10px;              
-    text-decoration: none;    
-    margin: 5px;
+    display: block;
+    padding: 10px;
+    text-align: center;
+    color: #fff;
+    background-color: #343a40;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    transition: all 0.3s;
 }
 
-/* Màu nền khi hover vào nút */
-.button a.nav-link:hover {
-    background-color: #5a6268;  /* Màu xám đậm khi hover */
-    color: #ffffff;             /* Màu chữ trắng khi hover */
-}
-
-/* Màu chữ sáng cho các phần tử có class .text-light */
 .text-light {
     color: white !important;
-}
-
-/* Màu chữ cho tiêu đề */
-h3 {
-    color: #ffffff;
-    font-size: 24px;
-}
-
-/* Định dạng container con */
-.container {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }

@@ -97,10 +97,11 @@ function remove_cart_item($pdo, $user_id, $product_id) {
     }
 }
 
-function getProducts($page, $products_per_page, $category_id)
+function getProducts($page, $products_per_page, $category_id, $search_term = '')
 {
     global $con;
-    $rows = getPaginatedProducts($page, $products_per_page, $category_id);
+    $rows = getPaginatedProducts($page, $products_per_page, $category_id, $search_term);
+    
     foreach ($rows as $row) {
         $formatted_price = number_format($row['product_price'], 0, ',', '.');
         echo "
@@ -112,12 +113,14 @@ function getProducts($page, $products_per_page, $category_id)
                     <p class='card-text d-flex justify-content-between'>
                         <span style='margin-left: 10px; color: red; font-weight: bold;'>Giá: {$formatted_price}đ</span> 
                         <span style='margin-right: 10px;'>Đã bán: ";
-        $get_sold_quantity = "SELECT SUM(quantity) AS total FROM orders_pending WHERE product_id = :product_id";
+        $get_sold_quantity = "SELECT product_id, sum(order_details.total_product) as sold_out
+                                FROM user_orders JOIN order_details ON user_orders.order_id = order_details.order_id 
+                                where order_status = 'confirmed' and  product_id= :product_id";
         $stmt = $con->prepare($get_sold_quantity);
         $stmt->bindParam(":product_id", $row['product_id'], PDO::PARAM_STR);
         $stmt->execute();
         $rows = $stmt->fetch(PDO::FETCH_ASSOC);
-        $total_sold = $rows['total'];
+        $total_sold = $rows['sold_out'];
         echo $total_sold ? $total_sold : '0';
         echo "          </span>
                     </p>
@@ -129,35 +132,57 @@ function getProducts($page, $products_per_page, $category_id)
     }
 }
 
-function getPaginatedProducts($page, $products_per_page, $category_id)
+function getPaginatedProducts($page, $products_per_page, $category_id, $search_term = '')
 {
     global $con;
+    
     $offset = ($page - 1) * $products_per_page;
+
+    $query = "SELECT * FROM products WHERE 1=1";
+
     if ($category_id) {
-        $stmt = $con->prepare('SELECT * FROM products WHERE danhmuc_id = :danhmuc_id LIMIT :offset, :limit');
-        $stmt->bindParam(':danhmuc_id', $category_id, PDO::PARAM_INT);
-    } else {
-        $stmt = $con->prepare('SELECT * FROM products LIMIT :offset, :limit');
+        $query .= " AND danhmuc_id = :danhmuc_id";
     }
 
-    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-    $stmt->bindValue(':limit', $products_per_page, PDO::PARAM_INT);
+    if ($search_term) {
+        $query .= " AND product_title LIKE :search_term";
+    }
+    $query .= " LIMIT :offset, :limit";
+    $stmt = $con->prepare($query);
+    if ($category_id) {
+        $stmt->bindValue(':danhmuc_id', $category_id, PDO::PARAM_INT);
+    }
+    if ($search_term) {
+        $stmt->bindValue(':search_term', '%' . $search_term . '%', PDO::PARAM_STR);
+    }
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+    $stmt->bindValue(':limit', (int)$products_per_page, PDO::PARAM_INT);
     $stmt->execute();
-
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-function generatePagination($con, $current_page, $products_per_page, $category_id)
+
+
+
+function generatePagination($con, $current_page, $products_per_page, $category_id, $search_term = '')
 {
     // Tính toán tổng số sản phẩm và tổng số trang
-    $total_products_query = "SELECT COUNT(*) FROM products";
+    $total_products_query = "SELECT COUNT(*) FROM products WHERE 1=1";
+    $params = [];
+
+    // Nếu có danh mục, thêm điều kiện lọc theo danh mục
     if ($category_id) {
-        $total_products_query .= " WHERE danhmuc_id = :danhmuc_id";
+        $total_products_query .= " AND danhmuc_id = :danhmuc_id";
+        $params[':danhmuc_id'] = $category_id;
     }
+
+    // Nếu có tìm kiếm, thêm điều kiện lọc theo từ khóa
+    if ($search_term) {
+        $total_products_query .= " AND product_title LIKE :search_term";
+        $params[':search_term'] = '%' . $search_term . '%';
+    }
+
     $stmt = $con->prepare($total_products_query);
-    if ($category_id) {
-        $stmt->bindParam(':danhmuc_id', $category_id, PDO::PARAM_INT);
-    }
-    $stmt->execute();
+    $stmt->execute($params);
     $total_products = $stmt->fetchColumn();
     $total_pages = ceil($total_products / $products_per_page);
 
@@ -165,45 +190,37 @@ function generatePagination($con, $current_page, $products_per_page, $category_i
         $total_pages = 1;
     }
 
-
     $prev_page = ($current_page > 1) ? $current_page - 1 : 1;
     $next_page = ($current_page < $total_pages) ? $current_page + 1 : $total_pages;
 
-
     $category_param = isset($category_id) ? "&category_id={$category_id}" : '';
+    $search_param = isset($search_term) ? "&search={$search_term}" : '';
 
     if ($total_products > 6) {
-
-
         echo '<div class="pagination justify-content-center mt-3 mb-3">';
-
 
         if ($current_page > 1) {
             echo "<div class='page-item'>
-                <a class='page-link' href='?page={$prev_page}{$category_param}'>Trang trước</a>
+                <a class='page-link' href='?page={$prev_page}{$category_param}{$search_param}'>Trang trước</a>
               </div>";
         }
-
 
         for ($i = 1; $i <= $total_pages; $i++) {
             $active_class = ($i == $current_page) ? 'active' : '';
             echo "<div class='page-item {$active_class}'>
-                <a class='page-link' href='?page={$i}{$category_param}'>{$i}</a>
+                <a class='page-link' href='?page={$i}{$category_param}{$search_param}'>{$i}</a>
               </div>";
         }
 
-
         if ($current_page < $total_pages) {
             echo "<div class='page-item'>
-                <a class='page-link' href='?page={$next_page}{$category_param}'>Trang sau</a>
+                <a class='page-link' href='?page={$next_page}{$category_param}{$search_param}'>Trang sau</a>
               </div>";
         }
 
         echo '</div>';
     }
 }
-
-
 function getCat()
 {
     global $con;
@@ -240,4 +257,13 @@ function getBrands()
         echo "<li class='nav-item'><a href='#' class='nav-link'>{$row['nxb_title']}</a></li>";
     }
 }
+function validatePassword($password) {
+    $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/';
+    if (preg_match($pattern, $password)) {
+        return true; 
+    } else {
+        return false;
+    }
+}
+
 ?>

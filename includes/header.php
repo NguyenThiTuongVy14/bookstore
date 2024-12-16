@@ -45,10 +45,12 @@ if (isset($_SESSION['user_id'])) {
             </div>
 
             <div class="search-bar position-relative">
-                <input type="text" class="form-control search-input" placeholder="Tìm kiếm sản phẩm...">
-                <button class="btn search-button">
-                    <i class="fas fa-search"></i>
-                </button>
+                <form action="index.php" method="post">
+                    <input type="text" class="form-control search-input" name="search" placeholder="Tìm kiếm sản phẩm...">
+                    <button class="btn search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
             </div>
 
             <div class="header-icons d-flex align-items-center">

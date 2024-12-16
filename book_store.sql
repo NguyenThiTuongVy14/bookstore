@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2024 at 03:32 PM
+-- Generation Time: Dec 16, 2024 at 09:33 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,17 +29,18 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin_table` (
   `admin_id` int(11) NOT NULL,
-  `admin_name` varchar(100) NOT NULL,
+  `username` varchar(50) NOT NULL,
   `admin_email` varchar(255) NOT NULL,
-  `admin_password` varchar(255) NOT NULL
+  `admin_password` varchar(255) NOT NULL,
+  `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `admin_table`
 --
 
-INSERT INTO `admin_table` (`admin_id`, `admin_name`, `admin_email`, `admin_password`) VALUES
-(1, 'admin1', 'admin@gmail.com', '$2y$10$Yj3npqPB2cPc0yeW0pnU5.AiAvUZi9hCzVH7ShWARtNpLSOrduanq');
+INSERT INTO `admin_table` (`admin_id`, `username`, `admin_email`, `admin_password`, `name`) VALUES
+(1, 'admin1', 'admin@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Nguyễn Thị Tường Vy');
 
 -- --------------------------------------------------------
 
@@ -129,6 +130,33 @@ CREATE TABLE `orders_pending` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `order_details`
+--
+
+CREATE TABLE `order_details` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `total_product` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_details`
+--
+
+INSERT INTO `order_details` (`id`, `product_id`, `total_product`, `order_id`) VALUES
+(1, 2, 1, 7),
+(2, 3, 10, 7),
+(3, 5, 1, 8),
+(4, 3, 1, 9),
+(5, 1, 1, 10),
+(6, 6, 1, 10),
+(7, 1, 1, 11),
+(8, 5, 1, 11);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `products`
 --
 
@@ -177,27 +205,22 @@ INSERT INTO `products` (`product_id`, `product_title`, `product_description`, `p
 CREATE TABLE `user_orders` (
   `order_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `amount_due` int(11) NOT NULL,
+  `total_price` int(11) NOT NULL,
   `invoice_number` int(11) NOT NULL,
-  `total_products` int(11) NOT NULL,
   `order_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `order_status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `user_payments`
+-- Dumping data for table `user_orders`
 --
 
-CREATE TABLE `user_payments` (
-  `payment_id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `invoice_number` int(11) NOT NULL,
-  `amount` int(11) NOT NULL,
-  `payment_mode` varchar(255) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO `user_orders` (`order_id`, `user_id`, `total_price`, `invoice_number`, `order_date`, `order_status`) VALUES
+(7, 5, 245000, 926532, '2024-12-15 12:10:54', 'confirmed'),
+(8, 5, 209000, 516064, '2024-12-15 12:11:11', 'cancelled'),
+(9, 5, 180000, 894287, '2024-12-15 16:20:28', 'confirmed'),
+(10, 5, 126000, 393185, '2024-12-16 07:55:11', 'confirmed'),
+(11, 5, 264000, 746723, '2024-12-16 07:55:57', 'confirmed');
 
 -- --------------------------------------------------------
 
@@ -260,6 +283,14 @@ ALTER TABLE `orders_pending`
   ADD KEY `product_id` (`product_id`);
 
 --
+-- Indexes for table `order_details`
+--
+ALTER TABLE `order_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_pro_od` (`product_id`),
+  ADD KEY `fk_ud_od` (`order_id`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -273,13 +304,6 @@ ALTER TABLE `products`
 ALTER TABLE `user_orders`
   ADD PRIMARY KEY (`order_id`),
   ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `user_payments`
---
-ALTER TABLE `user_payments`
-  ADD PRIMARY KEY (`payment_id`),
-  ADD KEY `order_id` (`order_id`);
 
 --
 -- Indexes for table `user_table`
@@ -301,13 +325,13 @@ ALTER TABLE `admin_table`
 -- AUTO_INCREMENT for table `danhmuc`
 --
 ALTER TABLE `danhmuc`
-  MODIFY `danhmuc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `danhmuc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `nhaxuatban`
 --
 ALTER TABLE `nhaxuatban`
-  MODIFY `nxb_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `nxb_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `orders_pending`
@@ -316,22 +340,22 @@ ALTER TABLE `orders_pending`
   MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `order_details`
+--
+ALTER TABLE `order_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `user_orders`
 --
 ALTER TABLE `user_orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `user_payments`
---
-ALTER TABLE `user_payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `user_table`
@@ -358,6 +382,13 @@ ALTER TABLE `orders_pending`
   ADD CONSTRAINT `orders_pending_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `order_details`
+--
+ALTER TABLE `order_details`
+  ADD CONSTRAINT `fk_pro_od` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_ud_od` FOREIGN KEY (`order_id`) REFERENCES `user_orders` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `products`
 --
 ALTER TABLE `products`
@@ -369,12 +400,6 @@ ALTER TABLE `products`
 --
 ALTER TABLE `user_orders`
   ADD CONSTRAINT `user_orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_table` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `user_payments`
---
-ALTER TABLE `user_payments`
-  ADD CONSTRAINT `user_payments_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `user_orders` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

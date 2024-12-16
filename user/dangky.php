@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('../database/connectdb.php');
-
+include('./functions/function.php');
 $error = '';  
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -12,8 +12,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $rePassword = $_POST['rePassword'];
         $address = $_POST['address'];
         $phone = $_POST['phone'];
-
-        if ($password !== $rePassword) {
+        if(!validatePassword($password)){
+            $error = "Mật khẩu không hợp lệ!";
+        }
+        else if ($password !== $rePassword) {
             $error = "Mật khẩu không khớp!";
         } 
         else {

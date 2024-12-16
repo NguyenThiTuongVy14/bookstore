@@ -1,5 +1,4 @@
 <?php
-session_start();  
 include("../database/connectdb.php"); 
 
 if (isset($_POST["them_product"])) {

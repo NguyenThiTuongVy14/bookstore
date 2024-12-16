@@ -71,7 +71,7 @@
                             <div class="card-body">
                                 <h5 class="card-title text-success"><?php echo htmlspecialchars($product_title); ?></h5>
                                 <p class="card-text">ID sản phẩm: <?php echo $product_id; ?></p>
-                                <p class="card-text">Giá tiền: <?php echo number_format($product_price, 0, ',', '.'); ?> VND</p>
+                                <p class="card-text">Giá tiền: <?php echo number_format($product_price, 0, ',', thousands_separator: '.'); ?> VND</p>
                                 <p class="card-text text-danger">Tổng được bán ra:
                                     <?php
                                     $get_sold_quantity = "SELECT SUM(quantity) as total_sold FROM `orders_pending` WHERE product_id = :product_id";

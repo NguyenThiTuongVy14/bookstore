@@ -1,11 +1,11 @@
 <?php
 include('../database/connectdb.php');
-// include('../functions/common_function.php');
-// @session_start();
-// if (!isset($_SESSION['admin_username'])) {
-//     header("Location: admin_login.php"); // Redirect to login page
-//     exit();
-// }
+session_start();
+
+if (!isset($_SESSION['admin_username'])) {
+    header("Location: dangnhap.php"); 
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,32 +45,46 @@ include('../database/connectdb.php');
 
     <!-- navbar -->
     <div class="container-fluid p-0">
-        <div class="bg-primary">
-            <h3 class="text-center p-2">TRANG QUẢN LÝ</h3>
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-3 sidebar bg-dark text-white p-3">
+            <h3 class="text-center py-3">TRANG QUẢN LÝ</h3>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="index.php?view_products" class="nav-link">
+                        <i class="fas fa-cogs"></i> Quản lý sản phẩm
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.php?view_categories" class="nav-link">
+                        <i class="fas fa-list-alt"></i> Quản lý danh mục
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.php?view_brands" class="nav-link">
+                        <i class="fas fa-industry"></i> Quản lý nhà xuất bản
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.php?list_orders" class="nav-link">
+                        <i class="fas fa-box"></i> Tất cả đơn hàng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.php?view_users" class="nav-link">
+                        <i class="fas fa-users"></i> Danh sách khách hàng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.php?logout" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                    </a>
+                </li>
+            </ul>
         </div>
-        <div class="row">
-            <div class="col-md-12 bg-primary p-1 d-flex justify-content-center align-items-center">
-                <div class="button text-center">
-                    <!-- Navigation buttons -->
-                    <button><a href="index.php?view_products" class="nav-link">Quản lý sản phẩm</a></button>
 
-                    <button><a href="index.php?view_categories" class="nav-link">Quản lý danh mục</a></button>
-                    
-                    <button><a href="index.php?view_brands" class="nav-link">Quản lý nhà xuất bản</a></button>
-                    
-                    <button><a href="index.php?list_orders" class="nav-link">Tất cả đơn hàng</a></button>
-                    
-                    <button><a href="index.php?list_payments" class="nav-link">Phương thức thanh toán</a></button>
-                    
-                    <button><a href="index.php?view_users" class="nav-link">Danh sách khách hàng</a></button>
-
-                    <button><a href="admin_logout.php" class="nav-link">Đăng xuất</a></button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Fourth child -->
-        <div class="container my-3">
+        <!-- Main Content -->
+        <div class="col-md-9 col-lg-9 main-content p-4">
             <?php
             //product
                 if (isset($_GET['view_products'])) {
@@ -137,9 +151,15 @@ include('../database/connectdb.php');
                 if (isset($_GET['delete_payments'])) {
                     include('delete_payments.php');
                 }
+                if(isset($_GET['logout'])) {
+                    unset($_SESSION['admin_username']);
+                    header('Location: dangnhap.php');
+                }
+               
             ?>
         </div>
     </div>
+</div>
 
     <!-- bootstrap js link -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
