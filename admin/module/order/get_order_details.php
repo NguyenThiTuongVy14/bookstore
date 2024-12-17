@@ -1,23 +1,21 @@
 <?php
-include('../../../database/connectdb.php'); // Cập nhật đường dẫn kết nối nếu cần
+include('../../../database/connectdb.php'); 
 
 if (isset($_GET['order_id'])) {
     $order_id = $_GET['order_id'];
 
-    // Lấy chi tiết đơn hàng từ bảng `order_details`
     $stmt = $con->prepare("SELECT * FROM order_details WHERE order_id = :order_id");
     $stmt->execute(['order_id' => $order_id]);
     $details = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Hiển thị thông tin chi tiết hóa đơn
     if (count($details) > 0) {
-        echo "<table class='table'>
-                <thead>
+        echo "<table class='table' width='100%'>
+                <thead >
                     <tr>
-                        <th>Tên sản phẩm</th>
-                        <th>Số lượng</th>
-                        <th>Giá</th>
-                        <th>Thành tiền</th>
+                        <th width='50%' scope='col'>Tên sản phẩm</th>
+                        <th width='10%' scope='col'>Số lượng</th>
+                        <th width='20%' scope='col'>Giá</th>
+                        <th width='20%' scope='col'>Thành tiền</th>
                     </tr>
                 </thead>
                 <tbody>";

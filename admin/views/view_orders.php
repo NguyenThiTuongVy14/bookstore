@@ -92,10 +92,6 @@
 <script>
     function showOrderDetails(orderId) {
         $('#order-details-' + orderId).toggle();
-
-        $('#loading-' + orderId).show();
-        $('#order-details-content-' + orderId).html('');
-
         $.ajax({
             url: 'module/order/get_order_details.php', 
             method: 'GET',
