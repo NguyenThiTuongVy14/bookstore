@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if(!validatePassword($password)){
             $error = "Mật khẩu không hợp lệ!";
         }
-        if(!validateVietnamPhoneNumber($phone)){
+        else if(!validateVietnamPhoneNumber($phone)){
             $error = "Số điện thoại không hợp lệ!";
         }
         else if ($password !== $rePassword) {

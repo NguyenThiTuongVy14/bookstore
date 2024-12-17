@@ -76,7 +76,6 @@
                             <td>$button_status</td>
                           </tr>";
 
-                    // Div này sẽ chứa chi tiết của mỗi đơn hàng
                     echo "<tr id='order-details-$order_id' class='order-details' style='display: none;'>
                             <td colspan='8'>
                                 <div class='loading' id='loading-$order_id' style='display:none;'>Đang tải...</div>

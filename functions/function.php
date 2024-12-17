@@ -259,7 +259,7 @@ function getBrands()
     }
 }
 function validatePassword($password) {
-    $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/';
+    $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/';
     if (preg_match($pattern, $password)) {
         return true; 
     } else {

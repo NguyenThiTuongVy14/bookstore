@@ -19,6 +19,7 @@ if (isset($_POST['update_cart'])) {
     if (isset($_SESSION['user_id'])) {
         $product_id = $_POST['product_id'];
         $quantity = $_POST['qty'][$product_id];
+        
         update_cart($con, $user_id, $product_id, $quantity);
     }
     foreach ($_POST['qty'] as $product_id => $quantity) {
