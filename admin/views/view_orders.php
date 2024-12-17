@@ -12,7 +12,7 @@
 <div class="container mt-4">
     <h3 class="text-center text-success">TẤT CẢ ĐƠN HÀNG</h3>
     <div class="col-12 d-flex justify-content-center btn-custom">
-        <a href="./export/order-list.php" class="btn nav-link text-light">EXPORT</a>
+        <a href="../export/order-list.php" class="btn nav-link text-light">EXPORT</a>
     </div>
 
     <table class="table mt-5">

@@ -1,3 +1,4 @@
+
 <?php
 
 function cart_item($user_id) {
@@ -107,7 +108,7 @@ function getProducts($page, $products_per_page, $category_id, $search_term = '')
         echo "
         <div class='col-md-4'>
             <div class='card'>
-                <img src='./asset/img/{$row['product_image1']}' class='card-img-top' alt='#'>
+                <a href='view_product_detail.php?product_id={$row['product_id']}'><img src='./asset/img/{$row['product_image1']}' class='card-img-top' alt='#'></a>
                 <div class='card-body'>
                     <h5 class='card-title'>{$row['product_title']}</h5>
                     <p class='card-text d-flex justify-content-between'>
@@ -265,5 +266,13 @@ function validatePassword($password) {
         return false;
     }
 }
+function validateVietnamPhoneNumber($phone) {
+    $pattern = '/^(?:\+84|84|0)(3|5|7|8|9)\d{8}$/';
 
+    if (preg_match($pattern, $phone)) {
+        return true; 
+    } else {
+        return false; 
+    }
+}
 ?>

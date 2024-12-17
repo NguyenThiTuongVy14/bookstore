@@ -23,8 +23,8 @@ if (isset($_SESSION['user_id'])) {
                 $trangthai= 'Đã bị hủy';
             }
             echo "<div class='order-card'>";
-            echo "<h2>Đơn hàng #" . $order['invoice_number'] . " - Tổng giá trị: " . number_format($order['total_price'], 2) . " VNĐ</h2>";
-            echo "<p><strong>Trạng thái:</strong> " . $order['order_status'] . "</p>";
+            echo "<h2>Đơn hàng #" . $order['invoice_number'] . " - Tổng giá trị: " . number_format($order['total_price'], 0,',','.') . " VNĐ</h2>";
+            echo "<p><strong>Trạng thái:</strong> " .$trangthai. "</p>";
 
             // Lấy chi tiết đơn hàng
             $stmt_details = $con->prepare("SELECT * FROM order_details WHERE order_id = :order_id");

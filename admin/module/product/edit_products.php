@@ -103,7 +103,7 @@ $theloai_title = $row_brands['nxb_title'];
             <div class="d-flex">
                 <input type="file" name="product_image1" class="form-control w-90 m-auto">
                 
-                <img src="../asset/img/<?php echo $product_image1 ?>" alt="" class="edit_image">
+                <img src="../asset/img/<?php echo $product_image1 ?>" alt="" class="edit_image" width="100px">
 
             </div>
         </div>
@@ -111,7 +111,7 @@ $theloai_title = $row_brands['nxb_title'];
             <label for="product_image2" class="form-label "> Hình 2</label>
             <div class="d-flex">
                 <input type="file" name="product_image2" class="form-control w-90 m-auto">
-                <img src="../asset/img/<?php echo $product_image2 ?>" alt="" class="edit_image">
+                <img src="../asset/img/<?php echo $product_image2 ?>" alt="" class="edit_image" width="100px">
 
             </div>
         </div>
@@ -119,7 +119,7 @@ $theloai_title = $row_brands['nxb_title'];
             <label for="product_image3" class="form-label "> Hình 3</label>
             <div class="d-flex">
                 <input type="file" name="product_image3" class="form-control w-90 m-auto">
-                <img src="../asset/img/<?php echo $product_image3 ?>" alt="" class="edit_image">
+                <img src="../asset/img/<?php echo $product_image3 ?>" alt="" class="edit_image" width="100px">
 
             </div>
         </div>

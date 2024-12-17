@@ -23,8 +23,8 @@ if (isset($_POST["them_product"])) {
         exit;
     }
 
-    if (empty($product_description) || strlen($product_description) > 255) {
-        echo "<script>alert('Mô tả sản phẩm không được trống và không quá 255 ký tự')</script>";
+    if (empty($product_description)) {
+        echo "<script>alert('Mô tả sản phẩm không được trống')</script>";
         echo "<script>window.open('them_sanpham','_self')</script>";
         exit;
     }

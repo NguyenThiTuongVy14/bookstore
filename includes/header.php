@@ -36,7 +36,7 @@ if (isset($_SESSION['user_id'])) {
 </head>
 
 <body>
-    <header class="header bg-dark">
+    <header class="header bg-dark sticky-top">
         <div class="container d-flex align-items-center justify-content-between">
             <div class="logo">
                 <a href="index.php">
@@ -54,17 +54,27 @@ if (isset($_SESSION['user_id'])) {
             </div>
 
             <div class="header-icons d-flex align-items-center">
-                <a href="#" class="icon-link text-center">
-                    <i><img src="asset/img/contact-us.png" alt=""></i>
-                    <p>Liên hệ</p>
-                </a>
+                <div class="icon-link text-center dropdown">
+                    <a href="#" class="dropdown-toggle" id="contactDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i><img src="asset/img/contact-us.png" alt="Contact"></i>
+                        <p>Liên hệ</p>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="contactDropdown">
+                        <li><a class="dropdown-item" href="https://zalo.me/0703878957" target="_blank">
+                            <i class="fab fa-zalo"></i> Zalo</a></li>
+                            <li><a class="dropdown-item" href="https://www.facebook.com/mewmeo03" target="_blank">
+                            <i class="fab fa-zalo"></i> Facebook</a></li>
+                            <li><a class="dropdown-item" href="tel:0123456789" target="_blank">
+                            <i class="fab fa-zalo"></i> Hotline</a></li>
+                    </ul>
+                </div>
+
                 <a href="cart.php" class="icon-link text-center">
                     <i class="fas fa-shopping-cart"></i><sup style="color: white;"><?php
                     if (isset($_SESSION['user_id'])) {
                         $user_id = $_SESSION['user_id'];
                         echo cart_item($user_id);
                     } else {
-
                         echo isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
                     }
                     ?></sup>
@@ -126,6 +136,5 @@ if (isset($_SESSION['user_id'])) {
 
 
 </body>
-
 
 </html>

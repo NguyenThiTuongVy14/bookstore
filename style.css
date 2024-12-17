@@ -76,7 +76,13 @@
   display: flex;
 
 }
-
+#contactDropdown{
+  text-decoration: none;
+  display: flex;
+}
+#contactDropdown i {
+  margin-right: 5px;
+}
 #accountDropdown i {
   margin-right: 5px;
 }

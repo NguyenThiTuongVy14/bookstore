@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($result && sha1($password) == $result['admin_password']) {
             $_SESSION['admin_username'] = $username;
-            header('Location: index.php');
+            header('Location: index.php?view_products');
             exit();
         } else {
             $error = "Thông tin đăng nhập không đúng!";
